@@ -1,16 +1,66 @@
-# React + Vite
+# 📒 Reto Contactos PWA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación desarrollada en React + Vite que permite gestionar contactos y funciona como Progressive Web App (PWA).
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Funcionalidades
 
-## React Compiler
+- Mostrar loader al iniciar
+- Cargar lista inicial de contactos
+- Agregar nuevos contactos
+- Eliminar contactos
+- Imagen en componente padre
+- Funciona offline
+- Instalable como aplicación móvil
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠 Tecnologías
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- Vite
+- Service Workers
+- Web App Manifest
+- Netlify
+
+---
+
+## 🌐 Deploy en Producción
+
+Disponible en:
+
+https://delicate-trifle-949959.netlify.app
+
+---
+
+## 📲 Instalación en el celular
+
+### Android
+1. Abrir el enlace en Google Chrome.
+2. Tocar los tres puntos (⋮).
+3. Seleccionar **Instalar aplicación**.
+4. Confirmar.
+
+### iPhone
+1. Abrir el enlace en Safari.
+2. Tocar el botón **Compartir**.
+3. Seleccionar **Añadir a pantalla de inicio**.
+4. Confirmar.
+
+---
+
+## 🔧 Estrategia PWA Implementada
+
+Se implementó una estrategia híbrida:
+
+- **Network First** para navegación.
+- **Cache First** para recursos estáticos.
+
+Esto permite actualización automática cuando hay conexión y funcionamiento offline cuando no la hay.
+
+---
+
+## 👨‍💻 Autor
+
+David Astudillo

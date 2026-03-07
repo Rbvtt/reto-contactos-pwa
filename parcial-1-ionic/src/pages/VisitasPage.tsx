@@ -18,70 +18,51 @@ import {
   IonToolbar,
   ItemReorderEventDetail
 } from "@ionic/react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { visitasMock } from "../data/visitasMock";
+import type { Visita } from "../App";
 
-interface Visita {
-  id: number;
-  paciente: string;
-  hora: string;
-  estado: string;
-  diagnostico: string;
-  receta: string;
-  motivoCancelacion: string;
+interface Props {
+  visitas: Visita[];
+  setVisitas: React.Dispatch<React.SetStateAction<Visita[]>>;
 }
 
-const VisitasPage: React.FC = () => {
+const VisitasPage: React.FC<Props> = ({ visitas, setVisitas }) => {
   const history = useHistory();
   const [filtro, setFiltro] = useState("todas");
-  const [visitas, setVisitas] = useState<Visita[]>(() => {
-    const guardadas = localStorage.getItem("tasks-v1");
-
-    if (!guardadas) return visitasMock;
-
-    const parseadas = JSON.parse(guardadas);
-    return parseadas.length > 0 ? parseadas : visitasMock;
-  });
-
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
   const [visitaACancelar, setVisitaACancelar] = useState<number | null>(null);
-  const [motivoTemporal, setMotivoTemporal] = useState("");
-
-  useEffect(() => {
-    localStorage.setItem("tasks-v1", JSON.stringify(visitas));
-  }, [visitas]);
 
   const marcarEnCamino = (id: number) => {
-    const actualizadas = visitas.map((visita) =>
-      visita.id === id ? { ...visita, estado: "en_camino" } : visita
+    setVisitas((prev) =>
+      prev.map((visita) =>
+        visita.id === id ? { ...visita, estado: "en_camino" } : visita
+      )
     );
-    setVisitas(actualizadas);
   };
 
   const abrirCancelacion = (id: number) => {
     setVisitaACancelar(id);
-    setMotivoTemporal("");
     setMostrarAlerta(true);
   };
 
   const confirmarCancelacion = (motivo: string) => {
     if (visitaACancelar === null) return;
 
-    const actualizadas = visitas.map((visita) =>
-      visita.id === visitaACancelar
-        ? {
-            ...visita,
-            estado: "cancelada",
-            motivoCancelacion: motivo || "Sin motivo especificado"
-          }
-        : visita
+    setVisitas((prev) =>
+      prev.map((visita) =>
+        visita.id === visitaACancelar
+          ? {
+              ...visita,
+              estado: "cancelada",
+              motivoCancelacion: motivo || "Sin motivo especificado"
+            }
+          : visita
+      )
     );
 
-    setVisitas(actualizadas);
     setMostrarAlerta(false);
     setVisitaACancelar(null);
-    setMotivoTemporal("");
   };
 
   const ordenarBase = (items: Visita[]) => {
@@ -94,13 +75,17 @@ const VisitasPage: React.FC = () => {
     const pendientes = visitas.filter((v) => v.estado === "pendiente");
     const otras = visitas.filter((v) => v.estado !== "pendiente");
 
+    const from = event.detail.from;
+    const to = event.detail.to;
+
     const reordered = [...pendientes];
-    const movedItem = reordered.splice(event.detail.from, 1)[0];
-    reordered.splice(event.detail.to, 0, movedItem);
+    const movedItem = reordered.splice(from, 1)[0];
+    reordered.splice(to, 0, movedItem);
 
     const nuevoArray = [...reordered, ...otras];
     setVisitas(nuevoArray);
-    event.detail.complete();
+
+    event.detail.complete(nuevoArray);
   };
 
   const visitasFiltradas = useMemo(() => {

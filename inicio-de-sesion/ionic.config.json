@@ -1,7 +1,0 @@
-{
-  "name": "inicio de sesion",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react-vite"
-}

@@ -1,0 +1,7 @@
+{
+  "name": "reto5",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}

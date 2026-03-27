@@ -7,12 +7,13 @@ import {
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
 import { AuthProvider, useAuthContext } from "./context/AuthContext";
-import { TasksProvider } from "./context/TasksContext";
+
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import HomePage from "./pages/HomePage";
+import ContactsPage from "./pages/ContactsPage";
 import TasksPage from "./pages/TasksPage";
-import TaskFormPage from "./pages/TaskFormPage";
-import TaskDetailPage from "./pages/TaskDetailPage";
+import FruitsPage from "./pages/FruitsPage";
 
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/normalize.css";
@@ -39,31 +40,31 @@ function AppRoutes() {
     <IonReactRouter>
       <IonRouterOutlet>
         <Route exact path="/login">
-          {user ? <Redirect to="/tasks" /> : <LoginPage />}
+          {user ? <Redirect to="/home" /> : <LoginPage />}
         </Route>
 
         <Route exact path="/register">
-          {user ? <Redirect to="/tasks" /> : <RegisterPage />}
+          {user ? <Redirect to="/home" /> : <RegisterPage />}
         </Route>
 
-        <Route exact path="/tasks/new">
-          {user ? <TaskFormPage /> : <Redirect to="/login" />}
+        <Route exact path="/home">
+          {user ? <HomePage /> : <Redirect to="/login" />}
         </Route>
 
-        <Route exact path="/tasks/edit/:id">
-          {user ? <TaskFormPage /> : <Redirect to="/login" />}
-        </Route>
-
-        <Route exact path="/tasks/:id">
-          {user ? <TaskDetailPage /> : <Redirect to="/login" />}
+        <Route exact path="/contacts">
+          {user ? <ContactsPage /> : <Redirect to="/login" />}
         </Route>
 
         <Route exact path="/tasks">
           {user ? <TasksPage /> : <Redirect to="/login" />}
         </Route>
 
+        <Route exact path="/fruits">
+          {user ? <FruitsPage /> : <Redirect to="/login" />}
+        </Route>
+
         <Route exact path="/">
-          <Redirect to="/login" />
+          <Redirect to={user ? "/home" : "/login"} />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
@@ -74,9 +75,7 @@ export default function App() {
   return (
     <IonApp>
       <AuthProvider>
-        <TasksProvider>
-          <AppRoutes />
-        </TasksProvider>
+        <AppRoutes />
       </AuthProvider>
     </IonApp>
   );

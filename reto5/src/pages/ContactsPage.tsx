@@ -2,7 +2,6 @@ import {
   IonBackButton,
   IonButton,
   IonButtons,
-  IonCheckbox,
   IonContent,
   IonHeader,
   IonInput,
@@ -14,31 +13,22 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { useState } from "react";
-import { useRealTimeCollection } from "../hooks/useRealTimeCollection";
+import { useCollection } from "../hooks/useCollection";
 import { useNetwork } from "../hooks/useNetwork";
 
-export default function TasksPage() {
-  const { data, add, update, deleteItem } = useRealTimeCollection("tasks");
+export default function ContactsPage() {
+  const { data, add, remove } = useCollection("contacts");
   const { connected } = useNetwork();
 
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleAdd = async () => {
-    if (!title) return;
+    if (!name || !phone) return;
 
-    await add({
-      title,
-      done: false,
-    });
-
-    setTitle("");
-  };
-
-  const toggleTask = async (task: any) => {
-    await update(task.id, {
-      title: task.title,
-      done: !task.done,
-    });
+    await add({ name, phone });
+    setName("");
+    setPhone("");
   };
 
   return (
@@ -48,7 +38,7 @@ export default function TasksPage() {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/home" />
           </IonButtons>
-          <IonTitle>Tasks</IonTitle>
+          <IonTitle>Contacts</IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -57,34 +47,37 @@ export default function TasksPage() {
 
         <IonItem>
           <IonInput
-            label="Nueva tarea"
+            label="Nombre"
             labelPlacement="stacked"
-            value={title}
-            onIonInput={(e) => setTitle(e.detail.value || "")}
+            value={name}
+            onIonInput={(e) => setName(e.detail.value || "")}
+          />
+        </IonItem>
+
+        <IonItem>
+          <IonInput
+            label="Teléfono"
+            labelPlacement="stacked"
+            value={phone}
+            onIonInput={(e) => setPhone(e.detail.value || "")}
           />
         </IonItem>
 
         <IonButton expand="block" onClick={handleAdd} disabled={!connected}>
-          Agregar tarea
+          Agregar contacto
         </IonButton>
 
         <IonList>
-          {data?.map((task: any) => (
-            <IonItem key={task.id}>
-              <IonCheckbox
-                checked={task.done}
-                onIonChange={() => toggleTask(task)}
-                disabled={!connected}
-              />
-
-              <IonLabel className="ion-margin-start">
-                <h2>{task.title}</h2>
-                <p>{task.done ? "Completada" : "Pendiente"}</p>
+          {data.map((contact: any) => (
+            <IonItem key={contact.id}>
+              <IonLabel>
+                <h2>{contact.name}</h2>
+                <p>{contact.phone}</p>
               </IonLabel>
 
               <IonButton
                 color="danger"
-                onClick={() => deleteItem(task.id)}
+                onClick={() => remove(contact.id)}
                 disabled={!connected}
               >
                 Eliminar

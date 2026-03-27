@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA8l-lA59lYAdI6UTxvqbUNPxSkpdjVlWI",
@@ -8,10 +10,14 @@ const firebaseConfig = {
   storageBucket: "reto5-b35c1.firebasestorage.app",
   messagingSenderId: "792063169848",
   appId: "1:792063169848:web:d8dcdb1f4f698796bd5dcd",
-  measurementId: "G-W01SDYE922"
+  measurementId: "G-W01SDYE922",
+  databaseURL: "https://reto5-b35c1-default-rtdb.firebaseio.com/"
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
-export { app, auth };
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const realtimeDb = getDatabase(app);
+
+export default app;

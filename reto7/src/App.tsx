@@ -1,6 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import MapPage from './pages/MapPage';
 
 /* Importación de Páginas */
 import Home from './pages/Home';
@@ -38,6 +39,9 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+        <Route exact path="/map">
+  <MapPage />
+</Route>
         <Route exact path="/push">
           <PushPage />
         </Route>

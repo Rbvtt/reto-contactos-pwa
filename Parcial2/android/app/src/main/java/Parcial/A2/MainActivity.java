@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package Parcial.A2;
 
 import com.getcapacitor.BridgeActivity;
 

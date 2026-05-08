@@ -1,0 +1,7 @@
+{
+  "name": "ProInf_Reto10",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
